@@ -1,0 +1,5 @@
+jupyter-book==2.0.0b3
+mystmd
+numpy
+datascience
+matplotlib
