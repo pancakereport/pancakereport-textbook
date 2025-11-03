@@ -22,7 +22,7 @@ def calculate_jb1_slugs(toc_flat):
     return [path.replace('.md', '.html').replace('.ipynb', '.html') for path in toc_flat]
 
 def calculate_jb2_slugs(toc_flat):
-    return [path.replace('.md', '').replace('.ipynb', '').replace('_', '-').lower() for path in toc_flat]
+    return [path.replace('.ipynb', '').replace('_', '-').lower() for path in toc_flat]
 
 def create_redirects(jb1_slugs, jb2_slugs, base_url="https://inferentialthinking.com/", output_root="_build/redirects"):
     assert(len(jb1_slugs) == len(jb2_slugs))
