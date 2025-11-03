@@ -25,26 +25,33 @@ def calculate_jb2_slugs(toc_flat):
     return [path.replace('.md', '').replace('.ipynb', '').replace('_', '-').lower() for path in toc_flat]
 
 def create_redirects(jb1_slugs, jb2_slugs, base_url="https://inferentialthinking.com/"):
-    assert(jb1_slugs.length == jb2_slugs.length)
+    assert(len(jb1_slugs) == len(jb2_slugs))
     for i in range(len(jb1_slugs)):
         jb1_slug = jb1_slugs[i]
         jb2_slug = jb2_slugs[i]
         # create the output directory if it doesn't exist
-        output_dir = os.path.join('_build', 'html', jb1_slug.split('/')[:-1])
+        dir = os.path.dirname(jb1_slug)
+        output_dir = os.path.join('_build', 'html', dir)
         os.makedirs(output_dir, exist_ok=True)
         # create the full jb2 url
         jb2_url = base_url + jb2_slug
         # html content
+        # simple HTML redirect with a visible link as a fallback
         html_content = f"""<!DOCTYPE html>
             <html>
             <head>
-            <meta http-equiv="refresh" content="0; url="{jb2_url}">
+                <meta http-equiv="refresh" content="0; url={jb2_url}">
+                <meta charset="utf-8">
+                <title>Redirecting...</title>
             </head>
+            <body>
+                <p>Redirecting to <a href=\"{jb2_url}\">{jb2_url}</a></p>
+            </body>
             </html>
             """
         output_file = os.path.join('_build', 'html', jb1_slug)
         with open(output_file, 'w') as f:
-            f.write(html_content)   
+            f.write(html_content)
 
 
 if __name__ == "__main__":
