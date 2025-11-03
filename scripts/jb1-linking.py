@@ -19,10 +19,10 @@ def flatten_toc(toc):
     return flat
 
 def calculate_jb1_slugs(toc_flat):
-    return [path.replace('.ipynb', '.html') for path in toc_flat]
+    return [path.replace('.md', '.html').replace('.ipynb', '.html') for path in toc_flat]
 
 def calculate_jb2_slugs(toc_flat):
-    return [path.replace('.ipynb', '').replace('_', '-').lower() for path in toc_flat]
+    return [path.replace('.md', '').replace('.ipynb', '').replace('_', '-').lower() for path in toc_flat]
 
 def create_redirects(jb1_slugs, jb2_slugs, base_url="https://inferentialthinking.com/", output_root="_build/redirects"):
     assert(len(jb1_slugs) == len(jb2_slugs))
@@ -30,8 +30,8 @@ def create_redirects(jb1_slugs, jb2_slugs, base_url="https://inferentialthinking
         jb1_slug = jb1_slugs[i]
         jb2_slug = jb2_slugs[i]
         # skip markdown files
-        if jb2_slug.endswith('.md'):
-            continue 
+        # if jb2_slug.endswith('.md'):
+        #     continue 
         # create the output directory if it doesn't exist, using a separate redirects dir
         dir = os.path.dirname(jb1_slug)
         output_dir = os.path.join(output_root, dir)
