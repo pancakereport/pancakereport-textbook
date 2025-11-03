@@ -1,0 +1,59 @@
+import yaml
+import json
+import os
+import sys
+
+def read_toc_from_yaml(file_path):
+    with open(file_path, 'r') as f:
+        data = yaml.safe_load(f)
+    toc = data.get('project', {}).get('toc', [])
+    return toc
+
+def flatten_toc(toc):
+    flat = []
+    for item in toc:
+        if 'file' in item:
+            flat.append(item['file'])
+        if 'children' in item:
+            flat.extend(flatten_toc(item['children']))
+    return flat
+
+def calculate_jb1_slugs(toc_flat):
+    return [path.replace('.md', '.html').replace('.ipynb', '.html') for path in toc_flat]
+
+def calculate_jb2_slugs(toc_flat):
+    return [path.replace('.md', '').replace('.ipynb', '').replace('_', '-').lower() for path in toc_flat]
+
+def create_redirects(jb1_slugs, jb2_slugs, base_url="https://inferentialthinking.com/"):
+    assert(jb1_slugs.length == jb2_slugs.length)
+    for i in range(len(jb1_slugs)):
+        jb1_slug = jb1_slugs[i]
+        jb2_slug = jb2_slugs[i]
+        # create the output directory if it doesn't exist
+        output_dir = os.path.join('_build', 'html', jb1_slug.split('/')[:-1])
+        os.makedirs(output_dir, exist_ok=True)
+        # create the full jb2 url
+        jb2_url = base_url + jb2_slug
+        # html content
+        html_content = f"""<!DOCTYPE html>
+            <html>
+            <head>
+            <meta http-equiv="refresh" content="0; url="{jb2_url}">
+            </head>
+            </html>
+            """
+        output_file = os.path.join('_build', 'html', jb1_slug)
+        with open(output_file, 'w') as f:
+            f.write(html_content)   
+
+
+if __name__ == "__main__":
+    toc = read_toc_from_yaml('myst.yml')
+    toc_flat = flatten_toc(toc)
+    jb1_slugs = calculate_jb1_slugs(toc_flat)
+    jb2_slugs = calculate_jb2_slugs(toc_flat)
+    if len(sys.argv) > 1:
+        base_url = sys.argv[1]
+        create_redirects(jb1_slugs, jb2_slugs, base_url)
+    else:
+        create_redirects(jb1_slugs, jb2_slugs)

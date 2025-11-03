@@ -141,6 +141,7 @@ site:
     logo_text: "Computational and Inferential Thinking"
     analytics_google: UA-148221575-1
     folders: true
+    hide_authors: true
   template: book-theme
   parts:
     footer: footer.md
