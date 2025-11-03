@@ -40,7 +40,7 @@ jobs:
       - name: Build HTML Assets
         run: jupyter-book build --html
       - name: Create redirects from JB1 to JB2
-        run: python3 ./scripts/jb1-linking.py "https://pancakereport.github.io/pancakereport-textbook/""
+        run: python3 ./scripts/jb1-linking.py "https://pancakereport.github.io/pancakereport-textbook/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
