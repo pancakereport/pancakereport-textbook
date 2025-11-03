@@ -39,12 +39,12 @@ jobs:
         run: npm install -g jupyter-book
       - name: Build HTML Assets
         run: jupyter-book build --html
+      - name: Create redirects from JB1 to JB2
+        run: python3 ./scripts/jb1-linking.py "https://pancakereport.github.io/pancakereport-textbook/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './_build/html'
-      - name: Create redirects from JB1 to JB2
-        run: python3 ./scripts/jb1-linking.py "https://pancakereport.github.io/pancakereport-textbook/""
       # Push the book's HTML to github-pages
       - name: Push to inferentialthinking.github.io
         uses: peaceiris/actions-gh-pages@v3
