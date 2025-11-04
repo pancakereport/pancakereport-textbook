@@ -32,14 +32,14 @@ def create_redirects(jb1_slugs, jb2_slugs, base_url="https://inferentialthinking
         jb1_slug = jb1_slugs[i]
         jb2_slug = jb2_slugs[i]
         # skip markdown files
-        if jb2_slug.endswith('.md'):
-            continue 
+        # if jb2_slug.endswith('.md'):
+        #     continue 
         # create the output directory if it doesn't exist, using a separate redirects dir
         dir = os.path.dirname(jb1_slug)
         output_dir = os.path.join(output_root, dir)
         os.makedirs(output_dir, exist_ok=True)
         # create the full jb2 url
-        jb2_url = base_url + jb2_slug
+        jb2_url = base_url + jb2_slug + "/index.html"
         # html content
         # simple HTML redirect with a visible link as a fallback
         html_content = f"""<!DOCTYPE html>
