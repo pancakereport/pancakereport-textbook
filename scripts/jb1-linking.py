@@ -22,7 +22,7 @@ def calculate_jb1_slugs(toc_flat):
     return [path.replace('.md', '.html').replace('.ipynb', '.html') for path in toc_flat]
 
 def calculate_jb2_slugs(toc_flat):
-    jb2_slugs = [path.replace('.ipynb', '').replace('_', '-').lower().replace('chapters/intro', '') for path in toc_flat]
+    jb2_slugs = [path.replace('.md', '').replace('.ipynb', '').replace('_', '-').lower().replace('chapters/intro', '') for path in toc_flat]
     # chapters/intro.html is a special case that becomes ''
     return jb2_slugs
 
